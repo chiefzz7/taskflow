@@ -122,3 +122,4 @@ O sistema utiliza **JWT (JSON Web Token)** para autenticação.
 ## 👨‍💻 Autor
 
 Desenvolvido por **chiefzz7 or Samuel Ramos** 🚀
+
