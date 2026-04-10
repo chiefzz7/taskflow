@@ -1,5 +1,7 @@
 # 🚀 TaskFlow
 
+## Para verificar a etapa atual, mude para a branch ```develop```
+
 Aplicação full stack inspirada no Trello para gerenciamento de tarefas.
 
 Este projeto foi desenvolvido com foco em **arquitetura profissional**, boas práticas de desenvolvimento e aplicação de conceitos de **DevOps**.
