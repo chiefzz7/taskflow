@@ -6,8 +6,9 @@ const router = Router();
 const userController = new UserController();
 
 router.post("/users", (req, res) => userController.create(req, res));
-router.get("/me", authMiddleware, (req, res) => {
-    return res.json({ message: "Você está autenticado" });
-});
+
+router.get("/me", authMiddleware, (req, res) =>
+  userController.me(req, res)
+);
 
 export default router;

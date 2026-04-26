@@ -5,22 +5,11 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 const router = Router();
 const taskController = new TaskController();
 
-router.post("/tasks", authMiddleware, (req, res) => 
-    taskController.create(req, res)
-);
+router.use(authMiddleware);
 
-router.get("/tasks", authMiddleware, (req, res) => 
-    taskController.list(req, res)
-);
-
-router.put("/tasks/:id", authMiddleware, (req, res) => 
-    taskController.update(req, res)
-);
-
-router.delete("/tasks/:id", authMiddleware, (req, res) =>
-    taskController.delete(req, res)
-);
+router.post("/tasks", (req, res) => taskController.create(req, res));
+router.get("/tasks", (req, res) => taskController.list(req, res));
+router.put("/tasks/:id", (req, res) => taskController.update(req, res));
+router.delete("/tasks/:id", (req, res) => taskController.delete(req, res));
 
 export default router;
-
-

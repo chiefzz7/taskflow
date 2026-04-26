@@ -1,63 +1,52 @@
 import { Request, Response } from "express";
 import { TaskService } from "../services/taskService";
-
-const taskService = new TaskService();
-
-interface AuthRequest extends Request {
-    userId?: string;
-}
+import { AuthRequest } from "../middlewares/authMiddleware";
 
 export class TaskController {
-    async create(req: AuthRequest, res: Response) {
-        try {
-            const { title, description } = req.body;
+  private taskService = new TaskService();
 
-            const task = await taskService.create(
-                req.userId!, 
-                title, 
-                description
-            );
+  async create(req: AuthRequest, res: Response) {
+    const { title, description } = req.body;
 
-            return res.status(201).json(task);
-        } catch (error: any) {
-            return res.status(400).json({ error: error.message });
-        }
+    const task = await this.taskService.create(
+      req.userId!,
+      title,
+      description
+    );
+
+    return res.status(201).json(task);
+  }
+
+  async list(req: AuthRequest, res: Response) {
+    const tasks = await this.taskService.list(req.userId!);
+    return res.json(tasks);
+  }
+
+  async update(req: AuthRequest, res: Response) {
+    const { id } = req.params;
+
+    const task = await this.taskService.update(
+      req.userId!,
+      id,
+      req.body
+    );
+
+    if (!task) {
+      return res.status(404).json({ error: "Task não encontrada" });
     }
 
-    async list(req: AuthRequest, res: Response) {
-        try {
-            const task = await taskService.list(req.userId!);
+    return res.json(task);
+  }
 
-            return res.json(task);
-        } catch (error: any) {
-            return res.status(400).json({ error: error.message });
-        }
+  async delete(req: AuthRequest, res: Response) {
+    const { id } = req.params;
+
+    const task = await this.taskService.delete(req.userId!, id);
+
+    if (!task) {
+      return res.status(404).json({ error: "Task não encontrada" });
     }
 
-    async update(req: AuthRequest, res: Response) {
-        try {
-            const { id } = req.params;
-
-            const task = await taskService.update(
-                req.userId!,
-                id,
-                req.body
-            );
-
-            return res.json(task);
-        } catch (error: any) {
-            res.status(400).json({ error: error.message });
-        }
-    }
-
-    async delete(req: AuthRequest, res: Response) {
-        try {
-            const { id } = req.params;
-            await taskService.delete(req.userId!, id);
-
-            return res.json({ message: "Task deletada" });
-        } catch (error: any) {
-            return res.status(400).json({ error: error.message });
-        }
-    }
+    return res.json({ message: "Task deletada com sucesso" });
+  }
 }

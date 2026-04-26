@@ -1,22 +1,22 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/authService";
 
-const authService = new AuthService();
-
 export class AuthController {
-    async login(req: Request, res: Response) {
-        try {
-            const { email, password } = req.body;
+  private authService = new AuthService();
 
-            if (!email || !password) {
-                return res.status(400).json({ error: "Campos obrigatórios" });
-            }
+  async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
 
-            const result = await authService.login(email, password);
+      if (!email || !password) {
+        return res.status(400).json({ error: "Campos obrigatórios" });
+      }
 
-            return res.json(result);
-        } catch (error: any) {
-            return res.status(400).json({ error: error.message });
-        }
+      const result = await this.authService.login(email, password);
+
+      return res.json(result);
+    } catch (error: any) {
+      return res.status(400).json({ error: error.message });
     }
+  }
 }
