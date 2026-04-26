@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/userService";
 import { AuthRequest } from "../middlewares/authMiddleware";
+import { createUserSchema } from "../schemas/userSchema";
 
 export class UserController {
   private userService = new UserService();
 
   async create(req: Request, res: Response) {
     try {
+      const result = createUserSchema.safeParse(req.body);
+
+      if (!result.success) {
+        return res.status(400).json(result.error.format());
+      }
+      
       const { name, email, password } = req.body;
 
       if (!name || !email || !password) {

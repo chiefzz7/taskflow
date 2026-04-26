@@ -1,11 +1,18 @@
 import { Request, Response } from "express";
 import { AuthService } from "../services/authService";
+import { loginSchema } from "../schemas/authSchema";
 
 export class AuthController {
   private authService = new AuthService();
 
   async login(req: Request, res: Response) {
     try {
+      const resultZod = loginSchema.safeParse(req.body);
+
+      if (!resultZod.success) {
+        return res.status(400).json(resultZod.error.format());
+      }
+      
       const { email, password } = req.body;
 
       if (!email || !password) {
