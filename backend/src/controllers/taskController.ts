@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { TaskService } from "../services/taskService";
 import { createTaskSchema, updateTaskSchema } from "../schemas/taskSchema";
 import { AuthRequest } from "../middlewares/authMiddleware";
@@ -42,14 +42,14 @@ export class TaskController {
     const task = await this.taskService.update(
       req.userId!,
       id,
-      req.body
+      data
     );
 
     if (!task) {
       return res.status(404).json({ error: "Task não encontrada" });
     }
 
-    return res.json(task);
+    return res.json({ message: "Task atualizada com sucesso" });
   }
 
   async delete(req: AuthRequest, res: Response) {

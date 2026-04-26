@@ -12,12 +12,8 @@ export class AuthController {
       if (!resultZod.success) {
         return res.status(400).json(resultZod.error.format());
       }
-      
-      const { email, password } = resultZod.data;
 
-      if (!email || !password) {
-        return res.status(400).json({ error: "Campos obrigatórios" });
-      }
+      const { email, password } = resultZod.data;
 
       const result = await this.authService.login(email, password);
 

@@ -13,12 +13,8 @@ export class UserController {
       if (!result.success) {
         return res.status(400).json(result.error.format());
       }
-      
-      const { name, email, password } = result.data;
 
-      if (!name || !email || !password) {
-        return res.status(400).json({ error: "Campos obrigatórios" });
-      }
+      const { name, email, password } = result.data;
 
       const user = await this.userService.createUser(
         name,
