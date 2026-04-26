@@ -14,7 +14,7 @@ export class UserController {
         return res.status(400).json(result.error.format());
       }
       
-      const { name, email, password } = req.body;
+      const { name, email, password } = result.data;
 
       if (!name || !email || !password) {
         return res.status(400).json({ error: "Campos obrigatórios" });

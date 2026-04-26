@@ -13,7 +13,7 @@ export class AuthController {
         return res.status(400).json(resultZod.error.format());
       }
       
-      const { email, password } = req.body;
+      const { email, password } = resultZod.data;
 
       if (!email || !password) {
         return res.status(400).json({ error: "Campos obrigatórios" });
